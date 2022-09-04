@@ -73,14 +73,16 @@ router.post('/Login',async(req, res) => {
 {
     "BASE64" : "",
     "CONTENIDO" : "image/jpeg",
-    "NOMBRE": "test (1).jpg"
+    "NOMBRE": "test (1).jpg",
+    "PUBLICO" : 1,
+    "IdUsuario" : 1
 }
 
 */
 router.post('/SubirArchivo',async(req, res) => {    
-    let {BASE64,CONTENIDO,NOMBRE} = req.body
-    let query = `INSERT INTO Usuario 
-        (nombreUsuario, correo,contrasenia,fotoperfil) VALUES (?, ? , ?, ?);`;
+    let {BASE64,CONTENIDO,NOMBRE,PUBLICO,IdUsuario} = req.body
+    let query = `INSERT INTO Archivo 
+        (nombreArchivo, isPublic,URL,Personid) VALUES (?, ? , ?, ?);`;
     //Subir foto
     let decodedImage = Buffer.from(BASE64, 'base64');
     let bucket = 'archivossemi1';
@@ -100,11 +102,61 @@ router.post('/SubirArchivo',async(req, res) => {
         ContentType: CONTENIDO
       }).promise()
       fotoaws = uploadedImage.Location;
-      res.json({
-        message: 'Archivo Subido Correctamente',
-        link : uploadedImage.Location,
-        status : '200'
-    })
+      // Value to be inserted
+    database.query(query, [NOMBRE, 
+        PUBLICO,fotoaws, IdUsuario], (err, rows) => {
+        if (err) throw err;
+        console.log("Row inserted with id = "
+            + rows.insertId);
+        res.json({
+            message: 'Archivo Subido Correctamente',
+            status : '200',
+            idArchivo : rows.insertId
+        })
+    });
+});
+//AgregarAmigo
+/*
+{
+    "IdAmigoEmisor" : 1,
+    "IdAmigoReceptor" : 2
+}
+
+*/
+router.post('/AgregarAmigo',async(req, res) => {    
+    let {IdAmigoEmisor,IdAmigoReceptor} = req.body
+    let query = `INSERT INTO Amigos 
+        (idAmigoEmisor, idAmigoReceptor) VALUES (?, ? );`;
+          // Value to be inserted
+        database.query(query, [IdAmigoEmisor, 
+            IdAmigoReceptor], (err, rows) => {
+            if (err) throw err;
+            console.log("Row inserted with id = "
+                + rows.insertId);
+            res.json({
+                message: 'Amigo agregado Correctamente',
+                status : '200'
+            })
+        });
+});
+//Obtener lista de todos los usuario
+//Login
+router.get('/Usuarios',async(req, res) => {    
+    var sql = 'SELECT Personid, nombreUsuario,correo, fotoperfil FROM Usuario ';
+    database.query(sql, function (err, result) {
+        if (result.length == 0){
+            res.json({
+                message: 'Usuario no se encuentra',
+                status : '400'
+            })
+        }else{
+            res.json({
+                message: 'Listado de Usuarios',
+                data : result,
+                status : '200'
+            })
+        }
+})
 });
 
 module.exports = router;

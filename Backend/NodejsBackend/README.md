@@ -49,9 +49,11 @@
 ```javascript
 
 {
-    "BASE64" : "convertir a base64 el archivo",
-    "CONTENIDO" : "application/pdf",
-    "NOMBRE" : "Test.pdf"
+    "BASE64" : "",
+    "CONTENIDO" : "image/jpeg",
+    "NOMBRE": "test (1).jpg",
+    "PUBLICO" : 1,
+    "IdUsuario" : 1
 }
 ```
 #### Respuesta
@@ -63,3 +65,29 @@
     "status": "200"
 }
 ```
+
+# Endpoint Agregar Amigo
+#### Información de método
+
+| INFO  | |
+| :-----------      | :--------------------- |
+| **Url**           | https://localhost:3005/AgregarAmigo          |
+| **Tipo Método**   | POST      |
+| **Header de petición**   | No aplica      |
+
+```javascript
+
+{
+    "IdAmigoEmisor" : 1,
+    "IdAmigoReceptor" : 3
+}
+```
+
+# Endpoint Listado Usuarios
+#### Información de método
+
+| INFO  | |
+| :-----------      | :--------------------- |
+| **Url**           | https://localhost:3005/Usuarios          |
+| **Tipo Método**   | GET      |
+| **Header de petición**   | No aplica      |
