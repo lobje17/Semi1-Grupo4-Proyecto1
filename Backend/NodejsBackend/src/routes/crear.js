@@ -69,8 +69,42 @@ router.post('/Login',async(req, res) => {
 })
 });
 //Upload Archivos
-async function uploadPhoto(req,id) {
-    
-    return fotoaws;
+/*
+{
+    "BASE64" : "",
+    "CONTENIDO" : "image/jpeg",
+    "NOMBRE": "test (1).jpg"
 }
+
+*/
+router.post('/SubirArchivo',async(req, res) => {    
+    let {BASE64,CONTENIDO,NOMBRE} = req.body
+    let query = `INSERT INTO Usuario 
+        (nombreUsuario, correo,contrasenia,fotoperfil) VALUES (?, ? , ?, ?);`;
+    //Subir foto
+    let decodedImage = Buffer.from(BASE64, 'base64');
+    let bucket = 'archivossemi1';
+    let filepath = `Semi/${NOMBRE}`;
+    let fotoaws = '';
+    let uploadParamsS3 = {
+      Bucket: bucket,
+      Key: filepath,
+      Body: decodedImage,
+      ACL: 'public-read',
+    };
+    const uploadedImage = await s3.upload({
+        Bucket: uploadParamsS3.Bucket,
+        Key: uploadParamsS3.Key,
+        Body: uploadParamsS3.Body,
+        ACL: 'public-read',
+        ContentType: CONTENIDO
+      }).promise()
+      fotoaws = uploadedImage.Location;
+      res.json({
+        message: 'Archivo Subido Correctamente',
+        link : uploadedImage.Location,
+        status : '200'
+    })
+});
+
 module.exports = router;
