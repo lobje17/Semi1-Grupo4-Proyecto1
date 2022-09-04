@@ -40,7 +40,7 @@
 # Endpoint Subir Archivo
 #### Información de método
 
-| INFO  | |
+| INFO  | 1 es publico 0 no es publico|
 | :-----------      | :--------------------- |
 | **Url**           | https://localhost:3005/SubirArchivo          |
 | **Tipo Método**   | POST      |
