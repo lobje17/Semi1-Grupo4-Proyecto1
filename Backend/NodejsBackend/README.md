@@ -18,6 +18,15 @@
     "correo" : "arma@gmail.com"
 }
 ```
+### Response
+```javascript
+
+{
+    "message" : "Usuario Ingresado Correctamente",
+    "status" : "200",
+    "idUsuario" : "1"
+}
+```
 
 
 # Endpoint Login
@@ -36,6 +45,24 @@
     "contrasenia": "1234"
 }
 ```
+
+### Response
+```javascript
+
+{
+    "message" : "Usuario logeado Correctamente",
+    "data": [
+        {
+            "Personid": 1,
+            "nombreUsuario": "EdsonArmando",
+            "correo": "arma@gmail.com",
+            "fotoperfil": "https://archivossemi1.s3.amazonaws.com/Semi/admin_EdsonArmando.jpg"
+        }
+        ],
+    "status" : "200"
+}
+```
+
 
 # Endpoint Subir Archivo
 #### Información de método
@@ -82,6 +109,15 @@
     "IdAmigoReceptor" : 3
 }
 ```
+### Response
+```javascript
+
+{
+    "message" : "Amigo agregado Correctamente",
+    "status" : "200"
+}
+```
+
 
 # Endpoint Listado Usuarios
 #### Información de método
@@ -91,3 +127,33 @@
 | **Url**           | https://localhost:3005/Usuarios          |
 | **Tipo Método**   | GET      |
 | **Header de petición**   | No aplica      |
+
+### Response
+```javascript
+
+{
+    "message": "Listado de Usuarios",
+    "data": [
+        {
+            "Personid": 1,
+            "nombreUsuario": "EdsonArmando",
+            "correo": "arma@gmail.com",
+            "fotoperfil": "https://archivossemi1.s3.amazonaws.com/Semi/admin_EdsonArmando.jpg"
+        },
+        {
+            "Personid": 2,
+            "nombreUsuario": "Luciana",
+            "correo": "arma@gmail.com",
+            "fotoperfil": "https://archivossemi1.s3.amazonaws.com/Semi/admin_Luciana.jpg"
+        },
+        {
+            "Personid": 3,
+            "nombreUsuario": "Kyara",
+            "correo": "arma@gmail.com",
+            "fotoperfil": "https://archivossemi1.s3.amazonaws.com/Semi/admin_Kyara.jpg"
+        }
+    ],
+    "status": "200"
+}
+```
+
