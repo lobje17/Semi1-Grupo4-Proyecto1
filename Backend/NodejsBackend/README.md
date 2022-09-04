@@ -36,3 +36,30 @@
     "contrasenia": "1234"
 }
 ```
+
+# Endpoint Subir Archivo
+#### Información de método
+
+| INFO  | |
+| :-----------      | :--------------------- |
+| **Url**           | https://localhost:3005/SubirArchivo          |
+| **Tipo Método**   | POST      |
+| **Header de petición**   | No aplica      |
+
+```javascript
+
+{
+    "BASE64" : "convertir a base64 el archivo",
+    "CONTENIDO" : "application/pdf",
+    "NOMBRE" : "Test.pdf"
+}
+```
+#### Respuesta
+```javascript
+
+{
+    "message": "Archivo Subido Correctamente",
+    "link": "https://archivossemi1.s3.amazonaws.com/Semi/Test.pdf",
+    "status": "200"
+}
+```
