@@ -7,7 +7,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard" >
             <div className="maindiv" >
-                <Container fluid class="row justify-content-center" >
+                <Container fluid className="row justify-content-center" >
                    <h1>Super Storage</h1>
                 </Container>
                 <div className="Login">
