@@ -8,20 +8,20 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-function Inicio() {
+function ArchivosPrivados() {
+    const navigate = useNavigate();
     const { state } = useLocation();
     const { Data } = state;
-    const navigate = useNavigate();
     const [info, setinfo] = useState([]);
-    const submitHandler: FormEventHandler = async  (event)  => {
-      event.preventDefault();
-      event.persist();
-      navigate('/Privados', { state: { Data: Data } });  
-    };
     const InsertArchivo: FormEventHandler = async  (event)  => {
       event.preventDefault();
       event.persist();
       navigate('/InsertArchivo', { state: { Data: Data } });  
+    };
+    const submitHandler: FormEventHandler = async  (event)  => {
+      event.preventDefault();
+      event.persist();
+      navigate('/Inicio', { state: { Data: Data } });  
     };
   useEffect(() => {
     const requestOptions = {
@@ -32,7 +32,7 @@ function Inicio() {
         'Access-Control-Allow-Origin':'*'
       }
     };
-    fetch("http://localhost:3005/ArchivosPublicos/"+Data[0].Personid,requestOptions)
+    fetch("http://localhost:3005/ArchivosPrivados/"+Data[0].Personid,requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setinfo(data.data);
@@ -42,11 +42,11 @@ function Inicio() {
   return (
     <>
     <h1><small>{`Hola de nuevo!!  ${Data[0].nombreUsuario}`}</small></h1>
-    <h1><small>Archivos Publicos</small></h1>
+    <h1><small>Archivos Privados</small></h1>
+    <button type="button" class="Espacio btn btn-warning" onClick = {submitHandler}>Publicos</button>
+    <button type="button" class="Espacio btn btn-success"  onClick = {InsertArchivo}>Ingresar Archivo</button>
     <br>
     </br>
-    <button type="button" class=" Espacio btn btn-warning" onClick = {submitHandler} >Privados</button>
-    <button type="button" class="Espacio btn btn-success"  onClick = {InsertArchivo}>Ingresar Archivo</button>
     <br></br>
     <br></br>
     <div className='GridCard'>
@@ -74,4 +74,4 @@ function Inicio() {
   );
 }
 
-export default Inicio;
+export default ArchivosPrivados;

@@ -158,5 +158,42 @@ router.get('/Usuarios',async(req, res) => {
         }
 })
 });
-
+//Obtener listado de Archivos
+router.get('/ArchivosPublicos/:id',async(req, res) => { 
+    var id = req.params.id;   
+    var sql = 'SELECT * from Archivo  where Personid = ? and isPublic = \'1\'';
+    database.query(sql,[id], function (err, result) {
+        if (result.length == 0){
+            res.json({
+                message: 'Archivos no se encuentra',
+                status : '400'
+            })
+        }else{
+            res.json({
+                message: 'Listado de Archivos',
+                data : result,
+                status : '200'
+            })
+        }
+})
+});
+//Obtener listado de Archivos
+router.get('/ArchivosPrivados/:id',async(req, res) => { 
+    var id = req.params.id;   
+    var sql = 'SELECT * from Archivo  where Personid = ? and isPublic = \'0\'';
+    database.query(sql,[id], function (err, result) {
+        if (result.length == 0){
+            res.json({
+                message: 'Archivos no se encuentra',
+                status : '400'
+            })
+        }else{
+            res.json({
+                message: 'Listado de Archivos',
+                data : result,
+                status : '200'
+            })
+        }
+})
+});
 module.exports = router;

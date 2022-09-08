@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import React, { useEffect, useState, Fragment, FormEventHandler,   } from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
+import { useLocation } from 'react-router-dom'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
@@ -12,48 +13,76 @@ function Login() {
   const [show, setShow] = useState(false);
   let [info, setinfo] = useState({});
   const navigate = useNavigate();
-  let status = '';
+  const { state } = useLocation();
+  const { Data } = state;
+  const [type, setType] = useState("");
+  let [base64, setBase64] = useState("");
 
   const onFormChange = (e, updatedAt) => {
     const name = e.target.name;
     const value = e.target.value;
     setValues({ ...values, [name]: value });
   };
+  const onChange = e => {
+    const files = e.target.files;
+    const file = files[0];
+    setType(file.type)
+    getBase64(file);
+  };
+
+  const onLoad = fileString => {
+    setBase64(fileString);
+  };
+
+  const getBase64 = file => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      onLoad(reader.result);
+    };
+  };
   const submitHandler: FormEventHandler = async  (event)  => {
     event.preventDefault();
     event.persist();
+    base64 = base64.replace(/data:.+?,/,"");   
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin':'*'
       },
-      body: JSON.stringify({ correo: values.correo, contrasenia : values.password })
+      body: JSON.stringify({ BASE64: base64, CONTENIDO : type, NOMBRE: values.Nombre, PUBLICO: parseInt(values.Tipo),IdUsuario: Data[0].Personid})
     };
-    const response = await fetch("http://localhost:3005/Login", requestOptions);
+    const response = await fetch("http://localhost:3005/SubirArchivo", requestOptions);
     const json = await response.json();
     if(json.status == '200'){
-      navigate('/Inicio', { state: { Data: json.data } });
+      navigate('/Inicio', { state: { Data: Data } });
     }else{
       navigate("/");
       
       setShow(true)
     }
-
   };
   return (
     <>
+    <h2>Ingrese su archivo</h2>
+    <div class="FormIngresar">
     <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control onChange={onFormChange} name="correo" type="email" placeholder="Enter email" />
+        <Form.Label>Nombre Archivo</Form.Label>
+        <Form.Control onChange={onFormChange} name="Nombre" type="text" placeholder="Enter Nombre" />
       </Form.Group>
-      <Form.Group  className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control onChange={onFormChange} type="password" name="password" placeholder="Password" />
+      <Form.Group controlId="formFile" className="mb-3">
+        <Form.Label>Seleccione su archivo</Form.Label>
+        <Form.Control onChange={onChange} type="file" />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Tipo</Form.Label>
+        <Form.Select onChange={onFormChange} name="Tipo"  aria-label="tipo archivo">
+          <option>Open this select menu</option>
+          <option value="1">Publico</option>
+          <option value="0">Privado</option>
+    </Form.Select>
       </Form.Group>
       <Button variant="primary" type="submit" onClick = {submitHandler}
       >
@@ -74,6 +103,8 @@ function Login() {
         </Toast>
       </Col>
     </Form>
+
+    </div>
     </>
   );
 }
