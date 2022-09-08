@@ -1,6 +1,6 @@
 # Semi1-Grupo4-Proyecto1
 ## Para correr el server de forma local estar en la carpeta src y ejecutar node index.js 
-# Endpoint Registro de Usuarios
+# 1. Endpoint Registro de Usuarios 
 #### Información de método
 
 | INFO  | |
@@ -29,7 +29,7 @@
 ```
 
 
-# Endpoint Login
+# 2. Endpoint Login
 #### Información de método
 
 | INFO  | |
@@ -64,7 +64,7 @@
 ```
 
 
-# Endpoint Subir Archivo
+# 3. Endpoint Subir Archivo
 #### Información de método
 
 | INFO  | 1 es publico 0 no es publico|
@@ -93,7 +93,7 @@
 }
 ```
 
-# Endpoint Agregar Amigo
+# 4. Endpoint Agregar Amigo
 #### Información de método
 
 | INFO  | |
@@ -119,7 +119,7 @@
 ```
 
 
-# Endpoint Listado Usuarios
+# 5. Endpoint Listado Usuarios
 #### Información de método
 
 | INFO  | |
@@ -157,3 +157,56 @@
 }
 ```
 
+# 6. Endpoint Archivos Privados
+#### Información de método
+
+| INFO  | |
+| :-----------      | :--------------------- |
+| **Url**           | http://localhost:3005/ArchivosPrivados/4          |
+| **Tipo Método**   | GET      |
+| **Header de petición**   | No aplica      |
+
+### Response
+```javascript
+
+{
+    "message": "Listado de Archivos",
+    "data": [
+        {
+            "idArchivo": 7,
+            "nombreArchivo": "Test1.pdf",
+            "isPublic": "0",
+            "URL": "https://archivossemi1.s3.amazonaws.com/Semi/Test1.pdf",
+            "Personid": 4
+        }
+    ],
+    "status": "200"
+}
+```
+
+# 7. Endpoint Archivos Publicos
+#### Información de método
+
+| INFO  | |
+| :-----------      | :--------------------- |
+| **Url**           | http://localhost:3005/ArchivosPublicos/4          |
+| **Tipo Método**   | GET      |
+| **Header de petición**   | No aplica      |
+
+### Response
+```javascript
+
+{
+    "message": "Listado de Archivos",
+    "data": [
+        {
+            "idArchivo": 7,
+            "nombreArchivo": "Test1.pdf",
+            "isPublic": "0",
+            "URL": "https://archivossemi1.s3.amazonaws.com/Semi/Test1.pdf",
+            "Personid": 4
+        }
+    ],
+    "status": "200"
+}
+```

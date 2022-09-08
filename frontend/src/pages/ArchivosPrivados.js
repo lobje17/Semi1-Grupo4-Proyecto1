@@ -13,6 +13,11 @@ function ArchivosPrivados() {
     const { state } = useLocation();
     const { Data } = state;
     const [info, setinfo] = useState([]);
+    const InsertArchivo: FormEventHandler = async  (event)  => {
+      event.preventDefault();
+      event.persist();
+      navigate('/InsertArchivo', { state: { Data: Data } });  
+    };
     const submitHandler: FormEventHandler = async  (event)  => {
       event.preventDefault();
       event.persist();
@@ -38,7 +43,8 @@ function ArchivosPrivados() {
     <>
     <h1><small>{`Hola de nuevo!!  ${Data[0].nombreUsuario}`}</small></h1>
     <h1><small>Archivos Privados</small></h1>
-    <button type="button" class="btn btn-warning" onClick = {submitHandler}>Publicos</button>
+    <button type="button" class="Espacio btn btn-warning" onClick = {submitHandler}>Publicos</button>
+    <button type="button" class="Espacio btn btn-success"  onClick = {InsertArchivo}>Ingresar Archivo</button>
     <br>
     </br>
     <br></br>
@@ -54,7 +60,9 @@ function ArchivosPrivados() {
               <Card.Text>
                 Este es un documento que se encuentra almacenado en un s3 aws
               </Card.Text>
-              <a href={s.URL}>Link Descarga</a>
+              <Card.Link href={s.URL}>Link Descarga</Card.Link>
+              <Card.Link href={s.URL}>Editar</Card.Link>
+              <Card.Link href={s.URL}>Eliminar</Card.Link>
             </Card.Body>
           </Card>
         </Col>
