@@ -7,7 +7,13 @@
   font-family: 'Lato', sans-serif;
 
 }
-
+.Espacio{
+  margin-left: 5px;
+}
+.FormIngresar{
+  width: 50%;
+  padding-left: 5rem;
+}
 .dashboard,
 .records {
   display: flex;
@@ -20,7 +26,13 @@
   width: 30vw;
   margin-left: 230px;
 }
-
+.GridCard{
+  padding-left: 0px;
+}
+img{
+  width: '20px';
+  height: '10px';
+  }
 .maindiv {
   /* background-color: cadetblue; */
   height: 85vh;
