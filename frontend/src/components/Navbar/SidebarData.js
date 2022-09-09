@@ -8,10 +8,10 @@ export const SideBarData = [
         icon: <AiOutlineAliwangwang />,
         class: 'nav-text'
     },
-    /*{
-        title: 'Experimento 1',
-        path: 'Experimento1',
-        icon: <WiCloudyWindy />,
+    {
+        title: 'Sing Up',
+        path: '/RegistroUser',
+        icon: <AiOutlineAliwangwang />,
         class: 'nav-text'
-    },*/
+    },
 ]

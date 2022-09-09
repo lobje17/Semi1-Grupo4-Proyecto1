@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import ThemeContext from '../../Context/ThemeContext'
 import './Navbar.css'
+import registro from '../../pages/RegistroUser'
 
 function Navbar() {
 
@@ -19,6 +20,11 @@ function Navbar() {
                 alt="website logo"
               />
               <ul className="middle-items">
+                <li className="list-item">
+                  <Link to="/" className="link-light">
+                    Home
+                  </Link>
+                </li>
                 <li className="list-item">
                   <Link to="/" className="link-light">
                     Home
@@ -49,6 +55,11 @@ function Navbar() {
                 <li className="list-item">
                   <Link to="/" className="link-light">
                     Home
+                  </Link>
+                </li>
+                <li className="list-item">
+                  <Link to="/RegistroUser" className="link-light">
+                    Register
                   </Link>
                 </li>
               </ul>

@@ -23,6 +23,24 @@ function ArchivosPrivados() {
       event.persist();
       navigate('/Inicio', { state: { Data: Data } });  
     };
+    const handleClick = (event, param) => {
+      navigate('/EditarArchivo', { state: { Data: Data, Archivo: param } });  
+    };
+    const EliminarArchivo = (event, param) => {
+      const requestOptions = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Type': 'application/pdf',
+          'Access-Control-Allow-Origin':'*'
+        }
+      };
+      fetch("http://localhost:3005/deleteArchivo/"+param,requestOptions)
+      .then((response) => response.json())
+      
+      navigate('/Inicio', { state: { Data: Data } });  
+    };
+      
   useEffect(() => {
     const requestOptions = {
       method: 'GET',
@@ -43,6 +61,12 @@ function ArchivosPrivados() {
     <>
     <h1><small>{`Hola de nuevo!!  ${Data[0].nombreUsuario}`}</small></h1>
     <h1><small>Archivos Privados</small></h1>
+    <div className='perfil bg-image hover-overlay'>
+      <img src={Data[0].fotoperfil} className='img-fluid' />
+      <a href='#!'>
+        <div className='mask overlay' style={{ backgroundColor: 'rgba(57, 192, 237, 0.2)' }}></div>
+      </a>
+    </div>
     <button type="button" class="Espacio btn btn-warning" onClick = {submitHandler}>Publicos</button>
     <button type="button" class="Espacio btn btn-success"  onClick = {InsertArchivo}>Ingresar Archivo</button>
     <br>
@@ -53,16 +77,16 @@ function ArchivosPrivados() {
     <Row xs={1} md={3} className="g-4">
         {info.map((s) => (
         <Col>
-          <Card aria-disabled='true' style={{ width: '20rem' }}  >
+          <Card aria-disabled='true' style={{ width: '25rem' }}  >
             <Card.Img  variant="top" src="https://previews.123rf.com/images/tmricons/tmricons1510/tmricons151000623/45815578-sube-icono-del-archivo-presentar-un-bot%C3%B3n-de-documento-s%C3%ADmbolo-documento-de-flecha.jpg"/>
             <Card.Body>
               <Card.Title >{s.nombreArchivo}</Card.Title>
               <Card.Text>
                 Este es un documento que se encuentra almacenado en un s3 aws
               </Card.Text>
-              <Card.Link href={s.URL}>Link Descarga</Card.Link>
-              <Card.Link href={s.URL}>Editar</Card.Link>
-              <Card.Link href={s.URL}>Eliminar</Card.Link>
+              <a href={s.URL}type="button" class=" Espacio btn btn-warning" role="button">Link Descarga</a>
+              <button type="button" class=" Espacio btn btn-warning" onClick={event => handleClick(event, s)} >Editar</button>
+              <button type="button" class=" Espacio btn btn-warning" onClick={event => EliminarArchivo(event, s.idArchivo)} >Eliminar</button>
             </Card.Body>
           </Card>
         </Col>

@@ -3,7 +3,7 @@ const keys = require('../AWS/s3keys');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3(keys.S3);
 const database = require('../AWS/AWSKeys');
-
+var verificado = false;
 const router = Router();
 /*
 {
@@ -166,7 +166,8 @@ router.get('/ArchivosPublicos/:id',async(req, res) => {
         if (result.length == 0){
             res.json({
                 message: 'Archivos no se encuentra',
-                status : '400'
+                status : '400',
+                data : []
             })
         }else{
             res.json({
@@ -185,11 +186,70 @@ router.get('/ArchivosPrivados/:id',async(req, res) => {
         if (result.length == 0){
             res.json({
                 message: 'Archivos no se encuentra',
+                data : [],
                 status : '400'
             })
         }else{
             res.json({
                 message: 'Listado de Archivos',
+                data : result,
+                status : '200'
+            })
+        }
+})
+});
+
+//Endpoint para editar
+//Obtener listado de Archivos
+router.put('/EditarArchivo',async(req, res) => { 
+    var {idArchivo,nombreArchivo,visibilidad,contrasenia,correo} = req.body;
+    var sql = 'UPDATE Archivo SET nombreArchivo =?, isPublic = ? WHERE idArchivo = ?;';  
+    var sql2 = 'SELECT * FROM Usuario WHERE contrasenia = ? and correo = ?';
+    database.query(sql2, [contrasenia, correo], function (err, result) {
+        if(err){
+            res.json({
+                message: 'Error al ejecutar la consulta',
+                status : '400'
+            })
+        }else{
+        if (result.length == 0){
+            res.json({
+                message: 'Contrasenia no coincide',
+                status : '400'
+            })
+            verificado = false
+        }else{
+            database.query(sql,[nombreArchivo,visibilidad,idArchivo], function (err, result) {
+                if (result.length == 0){
+                    res.json({
+                        message: 'Archivos no se encuentra',
+                        status : '400'
+                    })
+                }else{
+                    res.json({
+                        message: 'Archivos editado correctamente',
+                        status : '200'
+                    })
+                }
+        })
+        }
+        }
+    }) 
+});
+//Endpoint delete
+
+router.delete('/deleteArchivo/:id',async(req, res) => { 
+    var id = req.params.id;   
+    var sql = 'DELETE FROM Archivo WHERE idArchivo = ?';
+    database.query(sql,[id], function (err, result) {
+        if (result.length == 0){
+            res.json({
+                message: 'Archivos no se encuentra',
+                status : '400'
+            })
+        }else{
+            res.json({
+                message: 'Archivo Eliminado Correcatemente',
                 data : result,
                 status : '200'
             })

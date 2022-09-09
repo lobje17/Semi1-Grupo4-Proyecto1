@@ -7,6 +7,14 @@
   font-family: 'Lato', sans-serif;
 
 }
+.perfil{
+  padding-left: 5px;
+  height: 200px;
+  width: 200px;
+}
+.card{
+  width: 25rem;
+}
 .Espacio{
   margin-left: 5px;
 }

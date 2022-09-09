@@ -4,6 +4,8 @@ import Dashboard from "./pages/Dashboard";
 import Inicio from "./pages/Inicio";
 import Privados from "./pages/ArchivosPrivados";
 import IngresarArchivo from "./pages/InsertArchivo";
+import EditarArchivo from "./pages/EditarArchivo";
+import RegistroUser from "./pages/RegistroUser";
 import './App.css'
 //<Route path="/ListaSub" exact element={<ListaSubProcesos />} />
 function App() {
@@ -16,6 +18,8 @@ function App() {
           <Route path="/Inicio" exact element={<Inicio />} />
           <Route path="/Privados" exact element={<Privados />} />
           <Route path="/InsertArchivo" exact element={<IngresarArchivo />} />
+          <Route path="/EditarArchivo" exact element={<EditarArchivo />} />
+          <Route path="/RegistroUser" exact element={<RegistroUser />} />
         </Routes>
       </Router>
     </>

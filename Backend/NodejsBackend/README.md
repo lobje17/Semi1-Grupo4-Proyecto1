@@ -210,3 +210,30 @@
     "status": "200"
 }
 ```
+
+# 7. Endpoint Editar Archivos
+#### Información de método
+
+| INFO  | |
+| :-----------      | :--------------------- |
+| **Url**           | http://localhost:3005/EditarArchivo          |
+| **Tipo Método**   | PUT      |
+| **Header de petición**   | No aplica      |
+
+```javascript
+
+{"idArchivo":14,
+"nombreArchivo":"PruebaNueva",
+"visibilidad":1,
+"contrasenia":"mia123",
+"correo":"mia@gmail.com"}
+
+```
+### Response
+```javascript
+
+{
+    "message": "Archivos editado correctamente",
+    "status": "200"
+}
+```
