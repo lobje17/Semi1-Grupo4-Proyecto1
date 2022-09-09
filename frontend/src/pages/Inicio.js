@@ -9,10 +9,11 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 function Inicio() {
+    const [search, setSearch] = React.useState('');
     const { state } = useLocation();
     const { Data } = state;
     const navigate = useNavigate();
-    const [info, setinfo] = useState([]);
+    let [info, setinfo] = useState([]);
     const submitHandler: FormEventHandler = async  (event)  => {
       event.preventDefault();
       event.persist();
@@ -26,13 +27,14 @@ function Inicio() {
     const handleClick = (event, param) => {
       navigate('/EditarArchivo', { state: { Data: Data, Archivo: param } });  
     };
-  
+    const handleSearch = (event) => {
+      setSearch(event.target.value);
+    };
     const EliminarArchivo = (event, param) => {
       const requestOptions = {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Content-Type': 'application/pdf',
           'Access-Control-Allow-Origin':'*'
         }
       };
@@ -42,13 +44,14 @@ function Inicio() {
       navigate('/Inicio', { state: { Data: Data } });  
     };
   
-      
+    const AgregarAmigo = (event, param) => {
+      navigate('/Amigos', { state: { Data: Data } });  
+    };
   useEffect(() => {
     const requestOptions = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Type': 'application/pdf',
         'Access-Control-Allow-Origin':'*'
       }
     };
@@ -63,19 +66,23 @@ function Inicio() {
     <>
     <h1><small>{`Hola de nuevo!!  ${Data[0].nombreUsuario}`}</small></h1>
     <h1><small>Archivos Publicos</small></h1>
+    
     <div className='perfil bg-image hover-overlay'>
       <img src={Data[0].fotoperfil} className='img-fluid' />
       <a href='#!'>
         <div className='mask overlay' style={{ backgroundColor: 'rgba(57, 192, 237, 0.2)' }}></div>
       </a>
     </div>
-    <br>
-    </br>
     <button type="button" class=" Espacio btn btn-warning" onClick = {submitHandler} >Privados</button>
     <button type="button" class="Espacio btn btn-success"  onClick = {InsertArchivo}>Ingresar Archivo</button>
+    <button type="button" class="Espacio btn btn-info"  onClick = {AgregarAmigo}>Amigos</button>
     <br></br>
     <br></br>
     <div className='GridCard'>
+    <label htmlFor="search">
+        Search by Task:
+        <input id="search" type="text" onChange={handleSearch} />
+      </label>
     <Row xs={1} md={3} className="g-4">
         {info.map((s) => (
         <Col>
@@ -86,7 +93,8 @@ function Inicio() {
               <Card.Text>
                 Este es un documento que se encuentra almacenado en un s3 aws
               </Card.Text>
-              <a href={s.URL}type="button" class=" Espacio btn btn-warning" role="button">Link Descarga</a>
+              <Card.Subtitle className="mb-2 text-muted">Dueño: {s.nombreUsuario}</Card.Subtitle>
+              <a href={s.URL}type="button" class=" Espacio btn btn-warning" role="button">Ver Archivo</a>
               <button type="button" class=" Espacio btn btn-warning" onClick={event => handleClick(event, s)} >Editar</button>
               <button type="button" class=" Espacio btn btn-warning" onClick={event => EliminarArchivo(event, s.idArchivo)} >Eliminar</button>
             </Card.Body>

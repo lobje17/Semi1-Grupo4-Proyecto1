@@ -142,7 +142,12 @@ router.post('/AgregarAmigo',async(req, res) => {
 //Obtener lista de todos los usuario
 //Login
 router.get('/Usuarios',async(req, res) => {    
-    var sql = 'SELECT Personid, nombreUsuario,correo, fotoperfil FROM Usuario ';
+    var sql = 'SELECT u.Personid, u.nombreUsuario,u.correo, u.fotoperfil , sub.conteo\n' +
+    'FROM Usuario as u,(select count(1) as conteo,a.personid\n' +
+    'from Archivo as a \n' +
+    'where a.isPublic = \'1\'\n' +
+    'group by a.Personid ) as sub\n' +
+    'where sub.Personid = u.Personid';
     database.query(sql, function (err, result) {
         if (result.length == 0){
             res.json({
@@ -161,8 +166,20 @@ router.get('/Usuarios',async(req, res) => {
 //Obtener listado de Archivos
 router.get('/ArchivosPublicos/:id',async(req, res) => { 
     var id = req.params.id;   
-    var sql = 'SELECT * from Archivo  where Personid = ? and isPublic = \'1\'';
-    database.query(sql,[id], function (err, result) {
+    var sql = 'select a.idArchivo, a.nombreArchivo, a.isPublic, a.URL, a.Personid, u.nombreUsuario\n' +
+    'from Archivo as a\n' +
+    'inner join Usuario as u on u.Personid = a.Personid\n' +
+    'where a.isPublic = \'1\' and a.Personid IN (select u2.Personid\n' +
+    'from Amigos as am\n' +
+    'inner join Usuario as u on u.Personid = am.idAmigoEmisor\n' +
+    'inner join Usuario as u2 on u2.Personid = am.idAmigoReceptor\n' +
+    'where am.idAmigoEmisor = ?)\n' +
+    'union\n' +
+    'select a.idArchivo, a.nombreArchivo, a.isPublic, a.URL, a.Personid, u.nombreUsuario\n' +
+    'from Archivo as a\n' +
+    'inner join Usuario as u on u.Personid = a.Personid\n' +
+    'where a.isPublic = \'1\' and a.Personid = ?;\n';
+    database.query(sql,[id,id], function (err, result) {
         if (result.length == 0){
             res.json({
                 message: 'Archivos no se encuentra',

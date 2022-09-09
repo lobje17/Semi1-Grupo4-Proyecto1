@@ -62,6 +62,11 @@ function Navbar() {
                     Register
                   </Link>
                 </li>
+                <li className="list-item">
+                  <Link to="/Inicio" className="link-light">
+                    Inicio
+                  </Link>
+                </li>
               </ul>
               <button
                 type="button"

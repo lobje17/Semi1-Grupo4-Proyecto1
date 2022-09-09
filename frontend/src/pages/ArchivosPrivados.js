@@ -84,7 +84,7 @@ function ArchivosPrivados() {
               <Card.Text>
                 Este es un documento que se encuentra almacenado en un s3 aws
               </Card.Text>
-              <a href={s.URL}type="button" class=" Espacio btn btn-warning" role="button">Link Descarga</a>
+              <a href={s.URL}type="button" class=" Espacio btn btn-warning" role="button">Ver Archivo</a>
               <button type="button" class=" Espacio btn btn-warning" onClick={event => handleClick(event, s)} >Editar</button>
               <button type="button" class=" Espacio btn btn-warning" onClick={event => EliminarArchivo(event, s.idArchivo)} >Eliminar</button>
             </Card.Body>

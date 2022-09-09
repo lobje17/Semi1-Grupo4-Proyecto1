@@ -43,25 +43,30 @@ function RegistroUser() {
     event.preventDefault();
     event.persist();
     base64 = base64.replace(/data:.+?,/,"");   
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*'
-      },
-      body: JSON.stringify({"nombreUsuario" : values.Nombre,
-                            "fotoURL" : base64,
-                            "contrasenia" : values.password,
-                            "correo" : values.correo})
-    };
-    console.log(requestOptions.body);
-    const response = await fetch("http://localhost:3005/Registro", requestOptions);
-    const json = await response.json();
-    if(json.status == '200'){
-      navigate('/');
+    if(values.password == values.password2){
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin':'*'
+        },
+        body: JSON.stringify({"nombreUsuario" : values.Nombre,
+                              "fotoURL" : base64,
+                              "contrasenia" : values.password,
+                              "correo" : values.correo})
+      };
+      console.log(requestOptions.body);
+      const response = await fetch("http://localhost:3005/Registro", requestOptions);
+      const json = await response.json();
+      if(json.status == '200'){
+        navigate('/');
+      }else{
+        navigate("/");
+      }
     }else{
-      navigate("/");
+      setShow(true);
     }
+    
   };
   return (
     <>
@@ -84,6 +89,10 @@ function RegistroUser() {
         <Form.Label>Password</Form.Label>
         <Form.Control onChange={onFormChange} type="password" name="password" placeholder="Password" />
       </Form.Group>
+      <Form.Group  className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control onChange={onFormChange} type="password" name="password2" placeholder="Password" />
+      </Form.Group>
       <Button variant="primary" type="submit" onClick = {submitHandler}
       >
         Submit
@@ -103,7 +112,10 @@ function RegistroUser() {
         </Toast>
       </Col>
     </Form>
-
+    <Alert show={show} variant="success">
+        <Alert.Heading>Las contraseñas no coinciden</Alert.Heading>
+        <hr />
+      </Alert>
     </div>
     </>
   );
