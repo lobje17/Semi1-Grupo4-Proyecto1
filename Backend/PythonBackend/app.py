@@ -137,7 +137,12 @@ def AgregarAmigo():
 @app.route('/Usuarios', methods=['GET'])
 def Usuarios():
     cursor = mysql.connection.cursor()
-    cursor.execute(''' SELECT Personid, nombreUsuario,correo, fotoperfil FROM Usuario ''')
+    cursor.execute(''' SELECT u.Personid, u.nombreUsuario,u.correo, u.fotoperfil , IFNULL(sub.conteo, 0) as conteo
+        FROM (select count(1) as conteo,a.personid
+        from Archivo as a 
+        where a.isPublic = '1'
+        group by a.Personid ) as sub
+        right join Usuario as u on u.Personid = sub.personid ''')
     usuarios = cursor.fetchall()
     cursor.close()
     return  jsonify({'message': 'Listado de Usuarios',
