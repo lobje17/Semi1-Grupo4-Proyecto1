@@ -173,5 +173,78 @@ def SubirArchivo():
         'status' : '200',
         'idUsuario' : cursor.lastrowid})
 
+@app.route('/ArchivosPublicos', methods=['GET'])
+def ArchivosPublicos():
+    print('ArchivosPublicos')
+    id = request.args['id']
+    print(id)
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' select a.idArchivo, a.nombreArchivo, a.isPublic, a.URL, a.Personid, u.nombreUsuario
+    from Archivo as a
+    inner join Usuario as u on u.Personid = a.Personid
+    where a.isPublic = '1' and a.Personid IN (select u2.Personid
+    from Amigos as am
+    inner join Usuario as u on u.Personid = am.idAmigoEmisor
+    inner join Usuario as u2 on u2.Personid = am.idAmigoReceptor
+    where am.idAmigoEmisor = %s)
+    union
+    select a.idArchivo, a.nombreArchivo, a.isPublic, a.URL, a.Personid, u.nombreUsuario
+    from Archivo as a
+    inner join Usuario as u on u.Personid = a.Personid
+    where a.isPublic = '1' and a.Personid = %s; ''',(id,id))
+    archivos = cursor.fetchall()
+    cursor.close()
+    return  jsonify({'message': 'Listado de Archivos',
+        'data': archivos,
+        'status' : '200'})
+
+@app.route('/ArchivosPrivados', methods=['GET'])
+def ArchivosPrivados():
+    id = request.args['id']
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' SELECT * from Archivo  where Personid = %s and isPublic = '0' ''',(id))
+    archivos = cursor.fetchall()
+    cursor.close()
+    return  jsonify({'message': 'Listado de Archivos',
+        'data': archivos,
+        'status' : '200'})
+
+@app.route('/EditarArchivo', methods=['PUT'])
+def EditarArchivo():
+    idArchivo = request.json['idArchivo']
+    nombreArchivo = request.json['nombreArchivo']
+    visibilidad = request.json['visibilidad']
+    contrasenia = request.json['contrasenia']
+    correo = request.json['correo']
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' SELECT Personid, nombreUsuario,correo, fotoperfil FROM Usuario WHERE contrasenia = %s and correo = %s ''',(contrasenia,correo))
+    mysql.connection.commit()
+    user = cursor.fetchone()
+    cursor.close()
+   
+    if user is None:
+        return jsonify({
+                'message': 'credenciales invalidas',
+                'status' : '400'
+            })
+    else :
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' UPDATE Archivo SET nombreArchivo =%s, isPublic = %s WHERE idArchivo = %s; ''',(nombreArchivo,visibilidad,idArchivo))
+        mysql.connection.commit()
+        cursor.close()
+        return  jsonify({'message': 'Archivos editado correctamente',
+            'status' : '200'})
+
+@app.route('/deleteArchivo', methods=['DELETE'])
+def deleteArchivo():
+    id = request.args['id']
+    cursor = mysql.connection.cursor()
+    cursor.execute(f' DELETE FROM Archivo WHERE idArchivo = {id}')
+    mysql.connection.commit()
+    cursor.close()
+    return  jsonify({'message': 'Archivo Eliminado Correctamente',
+        'status' : '200'})
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3005)
