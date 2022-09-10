@@ -173,10 +173,10 @@ def SubirArchivo():
         'status' : '200',
         'idUsuario' : cursor.lastrowid})
 
-@app.route('/ArchivosPublicos', methods=['GET'])
-def ArchivosPublicos():
+@app.route('/ArchivosPublicos/<id>', methods=['GET'])
+def ArchivosPublicos(id):
     print('ArchivosPublicos')
-    id = request.args['id']
+    
     print(id)
     cursor = mysql.connection.cursor()
     cursor.execute(''' select a.idArchivo, a.nombreArchivo, a.isPublic, a.URL, a.Personid, u.nombreUsuario
@@ -198,9 +198,9 @@ def ArchivosPublicos():
         'data': archivos,
         'status' : '200'})
 
-@app.route('/ArchivosPrivados', methods=['GET'])
-def ArchivosPrivados():
-    id = request.args['id']
+@app.route('/ArchivosPrivados/<id>', methods=['GET'])
+def ArchivosPrivados(id):
+    
     cursor = mysql.connection.cursor()
     cursor.execute(''' SELECT * from Archivo  where Personid = %s and isPublic = '0' ''',(id))
     archivos = cursor.fetchall()
