@@ -142,12 +142,12 @@ router.post('/AgregarAmigo',async(req, res) => {
 //Obtener lista de todos los usuario
 //Login
 router.get('/Usuarios',async(req, res) => {    
-    var sql = 'SELECT u.Personid, u.nombreUsuario,u.correo, u.fotoperfil , sub.conteo\n' +
-    'FROM Usuario as u,(select count(1) as conteo,a.personid\n' +
-    'from Archivo as a \n' +
-    'where a.isPublic = \'1\'\n' +
-    'group by a.Personid ) as sub\n' +
-    'where sub.Personid = u.Personid';
+    var sql = 'SELECT u.Personid, u.nombreUsuario,u.correo, u.fotoperfil , IFNULL(sub.conteo, 0) as conteo\n' +
+    '    FROM (select count(1) as conteo,a.personid\n' +
+    '    from Archivo as a \n' +
+    '    where a.isPublic = \'1\'\n' +
+    '    group by a.Personid ) as sub\n' +
+    '    right join Usuario as u on u.Personid = sub.personid';
     database.query(sql, function (err, result) {
         if (result.length == 0){
             res.json({

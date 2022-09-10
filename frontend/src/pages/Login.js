@@ -30,7 +30,7 @@ function Login() {
       },
       body: JSON.stringify({ correo: values.correo, contrasenia : values.password })
     };
-    const response = await fetch("http://localhost:3005/Login", requestOptions);
+    const response = await fetch("http://44.208.35.199:3005/Login", requestOptions);
     const json = await response.json();
     if(json.status == '200'){
       navigate('/Inicio', { state: { Data: json.data } });

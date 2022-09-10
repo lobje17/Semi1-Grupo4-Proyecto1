@@ -35,7 +35,7 @@ function EditarArchivo() {
       body: JSON.stringify({ idArchivo: Archivo.idArchivo,nombreArchivo : values.Nombre,visibilidad: parseInt(values.Tipo),contrasenia:values.password,correo: Data[0].correo})
     };
     console.log(requestOptions.body);
-    const response = await fetch("http://localhost:3005/EditarArchivo", requestOptions);
+    const response = await fetch("http://44.208.35.199:3005/EditarArchivo", requestOptions);
     const json = await response.json();
     console.log(json);
     if(json.status == '200'){

@@ -29,7 +29,7 @@ function Amigos() {
         'Access-Control-Allow-Origin':'*'
       }
     };
-    fetch("http://localhost:3005/Usuarios",requestOptions)
+    fetch("http://44.208.35.199:3005/Usuarios",requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setinfo(data.data);
@@ -47,7 +47,7 @@ function Amigos() {
       body : JSON.stringify({IdAmigoEmisor:Data[0].Personid,IdAmigoReceptor : param})
     };
     console.log(requestOptions.body);
-    fetch("http://localhost:3005/AgregarAmigo/",requestOptions)
+    fetch("http://44.208.35.199:3005/AgregarAmigo/",requestOptions)
     .then((response) => response.json())
 
     setShow(true)
