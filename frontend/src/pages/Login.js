@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
 import { Alert } from 'react-bootstrap';
+import env from "react-dotenv";
 
 function Login() {
   const [values, setValues] = useState({});
@@ -30,8 +31,9 @@ function Login() {
       },
       body: JSON.stringify({ correo: values.correo, contrasenia : values.password })
     };
-    const response = await fetch("http://44.208.35.199:3005/Login", requestOptions);
+    const response = await fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/Login", requestOptions);
     const json = await response.json();
+    console.log(json.data);
     if(json.status == '200'){
       navigate('/Inicio', { state: { Data: json.data } });
     }else{

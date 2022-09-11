@@ -56,7 +56,7 @@ function RegistroUser() {
                               "correo" : values.correo})
       };
       console.log(requestOptions.body);
-      const response = await fetch("http://44.208.35.199:3005/Registro", requestOptions);
+      const response = await fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/Registro", requestOptions);
       const json = await response.json();
       if(json.status == '200'){
         navigate('/');

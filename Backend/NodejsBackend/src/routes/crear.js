@@ -60,6 +60,7 @@ router.post('/Login',async(req, res) => {
                 status : '400'
             })
         }else{
+            console.log(result);
             res.json({
                 message: 'Usuario logeado Correctamente',
                 data : result,

@@ -7,9 +7,11 @@ import io
 import six
 import uuid
 import imghdr
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['MYSQL_HOST'] = 'database-1.cy4vohpq0xqv.us-east-1.rds.amazonaws.com'
 app.config['MYSQL_USER'] = 'admin'
@@ -252,4 +254,4 @@ def deleteArchivo():
         'status' : '200'})
         
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3005)
+    app.run(host='0.0.0.0', port=3004)

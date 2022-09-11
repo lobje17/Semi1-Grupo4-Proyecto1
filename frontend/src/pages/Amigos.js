@@ -9,6 +9,7 @@ import Toast from 'react-bootstrap/Toast';
 import { Alert } from 'react-bootstrap';
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { BsTelephoneForwardFill } from "react-icons/bs";
+import env from "react-dotenv";
 
 
 function Amigos() {
@@ -29,7 +30,7 @@ function Amigos() {
         'Access-Control-Allow-Origin':'*'
       }
     };
-    fetch("http://44.208.35.199:3005/Usuarios",requestOptions)
+    fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/Usuarios",requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setinfo(data.data);
@@ -47,7 +48,7 @@ function Amigos() {
       body : JSON.stringify({IdAmigoEmisor:Data[0].Personid,IdAmigoReceptor : param})
     };
     console.log(requestOptions.body);
-    fetch("http://44.208.35.199:3005/AgregarAmigo/",requestOptions)
+    fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/AgregarAmigo/",requestOptions)
     .then((response) => response.json())
 
     setShow(true)

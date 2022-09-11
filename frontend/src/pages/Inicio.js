@@ -38,7 +38,7 @@ function Inicio() {
           'Access-Control-Allow-Origin':'*'
         }
       };
-      fetch("http://44.208.35.199:3005/deleteArchivo/"+param,requestOptions)
+      fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/deleteArchivo/"+param,requestOptions)
       .then((response) => response.json())
       
       navigate('/Inicio', { state: { Data: Data } });  
@@ -55,7 +55,7 @@ function Inicio() {
         'Access-Control-Allow-Origin':'*'
       }
     };
-    fetch("http://44.208.35.199:3005/ArchivosPublicos/"+Data[0].Personid,requestOptions)
+    fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/ArchivosPublicos/"+Data[0].Personid,requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setinfo(data.data);

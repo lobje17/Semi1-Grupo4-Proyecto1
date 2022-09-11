@@ -53,7 +53,7 @@ function Login() {
       },
       body: JSON.stringify({ BASE64: base64, CONTENIDO : type, NOMBRE: values.Nombre, PUBLICO: parseInt(values.Tipo),IdUsuario: Data[0].Personid})
     };
-    const response = await fetch("http://44.208.35.199:3005/SubirArchivo", requestOptions);
+    const response = await fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/SubirArchivo", requestOptions);
     const json = await response.json();
     if(json.status == '200'){
       navigate('/Inicio', { state: { Data: Data } });
