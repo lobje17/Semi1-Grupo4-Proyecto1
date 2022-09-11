@@ -218,7 +218,7 @@ def ArchivosPrivados(id):
     print('El id es')
     print(id)
     cursor = mysql.connection.cursor()
-    cursor.execute(''' SELECT * from Archivo  where Personid = %s and isPublic = '0' ''',(id))
+    cursor.execute(''' SELECT * from Archivo  where Personid = %s and isPublic = '0' ''',[id])
     #archivos = cursor.fetchall()
     columns = cursor.description 
     result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
