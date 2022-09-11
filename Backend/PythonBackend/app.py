@@ -111,18 +111,22 @@ def Login():
     contrasenia = request.json['contrasenia']
     cursor = mysql.connection.cursor()
     cursor.execute(''' SELECT Personid, nombreUsuario,correo, fotoperfil FROM Usuario WHERE contrasenia = %s and correo = %s ''',(contrasenia,correo))
-    user = cursor.fetchone()
-    print(user)
+    #user = cursor.fetchone()
+    # print(user)
+    columns = cursor.description 
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+    
     cursor.close()
-   
-    if user is None:
+    print(len(result))
+
+    if len(result) == 0:
         return jsonify({
                 'message': 'Usuario no se encuentra',
                 'status' : '400'
             })
     else :
         return  jsonify({'message': 'Usuario logeado Correctamente',
-            'data' : user,
+            'data' : result ,
             'status' : '200'})
 
 @app.route('/AgregarAmigo', methods=['POST'])
@@ -145,10 +149,12 @@ def Usuarios():
         where a.isPublic = '1'
         group by a.Personid ) as sub
         right join Usuario as u on u.Personid = sub.personid ''')
-    usuarios = cursor.fetchall()
+    #usuarios = cursor.fetchall()
+    columns = cursor.description 
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
     cursor.close()
     return  jsonify({'message': 'Listado de Usuarios',
-        'data': usuarios,
+        'data': result,
         'status' : '200'})
 
 @app.route('/SubirArchivo', methods=['POST'])
@@ -199,10 +205,12 @@ def ArchivosPublicos(id):
     from Archivo as a
     inner join Usuario as u on u.Personid = a.Personid
     where a.isPublic = '1' and a.Personid = %s; ''',(id,id))
-    archivos = cursor.fetchall()
+    #archivos = cursor.fetchall()
+    columns = cursor.description 
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
     cursor.close()
     return  jsonify({'message': 'Listado de Archivos',
-        'data': archivos,
+        'data': result,
         'status' : '200'})
 
 @app.route('/ArchivosPrivados/<id>', methods=['GET'])
@@ -210,10 +218,12 @@ def ArchivosPrivados(id):
     
     cursor = mysql.connection.cursor()
     cursor.execute(''' SELECT * from Archivo  where Personid = %s and isPublic = '0' ''',(id))
-    archivos = cursor.fetchall()
+    #archivos = cursor.fetchall()
+    columns = cursor.description 
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
     cursor.close()
     return  jsonify({'message': 'Listado de Archivos',
-        'data': archivos,
+        'data': result,
         'status' : '200'})
 
 @app.route('/EditarArchivo', methods=['PUT'])
