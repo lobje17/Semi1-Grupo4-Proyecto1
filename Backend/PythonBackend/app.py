@@ -129,7 +129,7 @@ def Login():
             'data' : result ,
             'status' : '200'})
 
-@app.route('/AgregarAmigo', methods=['POST'])
+@app.route('/AgregarAmigo/', methods=['POST'])
 def AgregarAmigo():
     IdAmigoEmisor = request.json['IdAmigoEmisor']
     IdAmigoReceptor = request.json['IdAmigoReceptor']
@@ -215,7 +215,8 @@ def ArchivosPublicos(id):
 
 @app.route('/ArchivosPrivados/<id>', methods=['GET'])
 def ArchivosPrivados(id):
-    
+    print('El id es')
+    print(id)
     cursor = mysql.connection.cursor()
     cursor.execute(''' SELECT * from Archivo  where Personid = %s and isPublic = '0' ''',(id))
     #archivos = cursor.fetchall()
@@ -253,9 +254,8 @@ def EditarArchivo():
         return  jsonify({'message': 'Archivos editado correctamente',
             'status' : '200'})
 
-@app.route('/deleteArchivo', methods=['DELETE'])
-def deleteArchivo():
-    id = request.args['id']
+@app.route('/deleteArchivo/<id>', methods=['DELETE'])
+def deleteArchivo(id):
     cursor = mysql.connection.cursor()
     cursor.execute(f' DELETE FROM Archivo WHERE idArchivo = {id}')
     mysql.connection.commit()

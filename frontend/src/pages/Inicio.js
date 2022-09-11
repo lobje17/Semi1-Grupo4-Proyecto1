@@ -40,7 +40,7 @@ function Inicio() {
       };
       fetch("http://"+process.env.REACT_APP_BACKEND_IP+"/deleteArchivo/"+param,requestOptions)
       .then((response) => response.json())
-      
+      alert("Se elimino el archivo");
       navigate('/Inicio', { state: { Data: Data } });  
     };
   
