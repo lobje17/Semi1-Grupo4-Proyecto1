@@ -1,7 +1,7 @@
 from flask import Flask,render_template, request
 from flask import jsonify
 from flask_mysqldb import MySQL
-import boto3, botocore
+import boto3
 import base64
 import io
 import six
