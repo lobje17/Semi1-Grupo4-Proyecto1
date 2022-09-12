@@ -13,8 +13,8 @@
 > ***
 > ## **Manuales**
 > 
->   - ### [**Usuario**](/Semi1-Grupo4-Proyecto1/Manuales/Usuario.md)
->   - ### [**Tecnico**](/Semi1-Grupo4-Proyecto1/Manuales/Tecnico.md)
+>   - ### [**Usuario**](/Manuales/Usuario.md)
+>   - ### [**Tecnico**](/Manuales/Tecnico.md)
 > 
 > ***
 > ***
